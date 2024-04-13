@@ -25,6 +25,16 @@ class Sliders {
     const currentSlide = this.slides[this.slideIndex];
     currentSlide.classList.add('animated', 'fadeIn');
     currentSlide.style.display = 'block';
+
+    if(this.hanson && index === 2){
+      setTimeout(()=>{
+        this.hanson.classList.add('animated','slideInUp');
+        this.hanson.style.display = 'block';
+      },3000);
+    }else if(this.hanson && index !== 2){
+      this.hanson.classList.remove('animated','slideInUp');
+      this.hanson.style.display = 'none';
+    }
   }
   
   plusSlide(offset) {
@@ -33,6 +43,9 @@ class Sliders {
   }
   
   render() {
+    this.hanson = document.querySelector('.hanson');
+    this.hanson.style.display = 'none';
+    
     this.buttons.forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();

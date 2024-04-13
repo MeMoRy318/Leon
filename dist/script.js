@@ -37,12 +37,23 @@ class Sliders {
     const currentSlide = this.slides[this.slideIndex];
     currentSlide.classList.add('animated', 'fadeIn');
     currentSlide.style.display = 'block';
+    if (this.hanson && index === 2) {
+      setTimeout(() => {
+        this.hanson.classList.add('animated', 'slideInUp');
+        this.hanson.style.display = 'block';
+      }, 3000);
+    } else if (this.hanson && index !== 2) {
+      this.hanson.classList.remove('animated', 'slideInUp');
+      this.hanson.style.display = 'none';
+    }
   }
   plusSlide(offset) {
     const newIndex = this.slideIndex + offset;
     this.showSlide(newIndex);
   }
   render() {
+    this.hanson = document.querySelector('.hanson');
+    this.hanson.style.display = 'none';
     this.buttons.forEach(btn => {
       btn.addEventListener('click', e => {
         e.preventDefault();
@@ -127,8 +138,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mudules_sliders__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mudules/sliders */ "./src/js/mudules/sliders.js");
 
 window.addEventListener('DOMContentLoaded', () => {
-  const sliders = new _mudules_sliders__WEBPACK_IMPORTED_MODULE_0__["default"]('.page', '.next');
-  sliders.render();
+  new _mudules_sliders__WEBPACK_IMPORTED_MODULE_0__["default"]('.page', '.next').render();
 });
 })();
 
