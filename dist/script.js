@@ -2,6 +2,64 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/js/mudules/playVideo.js":
+/*!*************************************!*\
+  !*** ./src/js/mudules/playVideo.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+class VideoPlayer {
+  constructor(overlaySelector, tiggerSelector, closeSelector) {
+    this.overlay = document.querySelector(overlaySelector);
+    this.triggers = document.querySelectorAll(tiggerSelector);
+    this.close = document.querySelector(closeSelector);
+    this.player = null;
+  }
+  createPlayer(url) {
+    this.player = new YT.Player('frame', {
+      height: '100%',
+      width: '100%',
+      videoId: url
+    });
+  }
+  bindTriggers() {
+    this.triggers.forEach(trigger => {
+      trigger.addEventListener('click', () => {
+        this.overlay.style.display = 'flex';
+        if (!this.player) {
+          const videoId = trigger.getAttribute('data-url');
+          this.createPlayer(videoId);
+        }
+      });
+    });
+  }
+  bindCloseBtn() {
+    this.close.addEventListener('click', () => {
+      this.player.stopVideo();
+      this.overlay.style.display = 'none';
+    });
+    this.overlay.addEventListener('click', () => {
+      this.overlay.style.display = 'none';
+      this.player.stopVideo();
+    });
+  }
+  init() {
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    this.bindTriggers();
+    this.bindCloseBtn();
+  }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (VideoPlayer);
+
+/***/ }),
+
 /***/ "./src/js/mudules/sliders.js":
 /*!***********************************!*\
   !*** ./src/js/mudules/sliders.js ***!
@@ -135,10 +193,13 @@ var __webpack_exports__ = {};
   !*** ./src/js/main.js ***!
   \************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _mudules_sliders__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mudules/sliders */ "./src/js/mudules/sliders.js");
+/* harmony import */ var _mudules_playVideo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mudules/playVideo */ "./src/js/mudules/playVideo.js");
+/* harmony import */ var _mudules_sliders__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mudules/sliders */ "./src/js/mudules/sliders.js");
+
 
 window.addEventListener('DOMContentLoaded', () => {
-  new _mudules_sliders__WEBPACK_IMPORTED_MODULE_0__["default"]('.page', '.next').render();
+  new _mudules_sliders__WEBPACK_IMPORTED_MODULE_1__["default"]('.page', '.next').render();
+  new _mudules_playVideo__WEBPACK_IMPORTED_MODULE_0__["default"]('.overlay', '.play', '.close').init();
 });
 })();
 
