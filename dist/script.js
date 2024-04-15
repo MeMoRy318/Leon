@@ -60,22 +60,21 @@ class VideoPlayer {
 
 /***/ }),
 
-/***/ "./src/js/mudules/sliders.js":
-/*!***********************************!*\
-  !*** ./src/js/mudules/sliders.js ***!
-  \***********************************/
+/***/ "./src/js/mudules/slider/slider-main.js":
+/*!**********************************************!*\
+  !*** ./src/js/mudules/slider/slider-main.js ***!
+  \**********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-class Sliders {
+/* harmony import */ var _slider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./slider */ "./src/js/mudules/slider/slider.js");
+
+class MainSlider extends _slider__WEBPACK_IMPORTED_MODULE_0__["default"] {
   constructor(pagesSelector, buttonsSelector) {
-    this.buttons = document.querySelectorAll(buttonsSelector);
-    this.pages = document.querySelector(pagesSelector);
-    this.slides = Array.from(this.pages.children);
-    this.slideIndex = 0;
+    super(pagesSelector, buttonsSelector);
   }
   hideSlides() {
     this.slides.forEach(slide => {
@@ -126,7 +125,32 @@ class Sliders {
     this.showSlide(this.slideIndex);
   }
 }
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Sliders);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MainSlider);
+
+/***/ }),
+
+/***/ "./src/js/mudules/slider/slider.js":
+/*!*****************************************!*\
+  !*** ./src/js/mudules/slider/slider.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+class Slider {
+  constructor({
+    pagesSelector = '',
+    buttonsSelector = ''
+  } = {}) {
+    this.buttons = document.querySelectorAll(buttonsSelector);
+    this.pages = document.querySelector(pagesSelector);
+    this.slides = Array.from(this.pages.children);
+    this.slideIndex = 0;
+  }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Slider);
 
 /***/ })
 
@@ -194,11 +218,14 @@ var __webpack_exports__ = {};
   \************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mudules_playVideo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mudules/playVideo */ "./src/js/mudules/playVideo.js");
-/* harmony import */ var _mudules_sliders__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mudules/sliders */ "./src/js/mudules/sliders.js");
+/* harmony import */ var _mudules_slider_slider_main__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mudules/slider/slider-main */ "./src/js/mudules/slider/slider-main.js");
 
 
 window.addEventListener('DOMContentLoaded', () => {
-  new _mudules_sliders__WEBPACK_IMPORTED_MODULE_1__["default"]('.page', '.next').render();
+  new _mudules_slider_slider_main__WEBPACK_IMPORTED_MODULE_1__["default"]({
+    pagesSelector: '.page',
+    buttonsSelector: '.next'
+  }).render();
   new _mudules_playVideo__WEBPACK_IMPORTED_MODULE_0__["default"]('.overlay', '.play', '.close').init();
 });
 })();

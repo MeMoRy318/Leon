@@ -1,7 +1,7 @@
 import VideoPlayer from './mudules/playVideo';
-import Sliders from './mudules/sliders';
+import MainSlider from './mudules/slider/slider-main';
 
 window.addEventListener('DOMContentLoaded',()=>{
-  new Sliders('.page','.next').render();
+  new MainSlider({pagesSelector:'.page', buttonsSelector:'.next'}).render();
   new VideoPlayer('.overlay','.play','.close').init();
 });

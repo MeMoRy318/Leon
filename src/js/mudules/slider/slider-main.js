@@ -1,11 +1,9 @@
-class Sliders {
-  constructor(pagesSelector, buttonsSelector) {
-    this.buttons = document.querySelectorAll(buttonsSelector);
-    this.pages = document.querySelector(pagesSelector);
-    this.slides = Array.from(this.pages.children);
-    this.slideIndex = 0;
+import Slider from './slider';
+
+class MainSlider extends Slider {
+  constructor( pagesSelector, buttonsSelector ){
+    super( pagesSelector, buttonsSelector );
   }
-  
   hideSlides() {
     this.slides.forEach(slide => {
       slide.classList.remove('animated', 'fadeIn');
@@ -62,6 +60,5 @@ class Sliders {
     this.showSlide(this.slideIndex);
   }
 }
-  
-export default Sliders;
-  
+
+export default MainSlider;
