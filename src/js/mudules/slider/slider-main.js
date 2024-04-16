@@ -1,4 +1,4 @@
-import Slider from './slider';
+import {Slider} from './slider';
 
 class MainSlider extends Slider {
   constructor( pagesSelector, buttonsSelector ){
@@ -61,4 +61,4 @@ class MainSlider extends Slider {
   }
 }
 
-export default MainSlider;
+export {MainSlider};

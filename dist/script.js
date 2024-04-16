@@ -60,6 +60,27 @@ class VideoPlayer {
 
 /***/ }),
 
+/***/ "./src/js/mudules/slider/index.js":
+/*!****************************************!*\
+  !*** ./src/js/mudules/slider/index.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   MainSlider: () => (/* reexport safe */ _slider_main__WEBPACK_IMPORTED_MODULE_1__.MainSlider),
+/* harmony export */   Slider: () => (/* reexport safe */ _slider__WEBPACK_IMPORTED_MODULE_0__.Slider),
+/* harmony export */   SliderMini: () => (/* reexport safe */ _slider_mini__WEBPACK_IMPORTED_MODULE_2__.SliderMini)
+/* harmony export */ });
+/* harmony import */ var _slider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./slider */ "./src/js/mudules/slider/slider.js");
+/* harmony import */ var _slider_main__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./slider-main */ "./src/js/mudules/slider/slider-main.js");
+/* harmony import */ var _slider_mini__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./slider-mini */ "./src/js/mudules/slider/slider-mini.js");
+
+
+
+
+/***/ }),
+
 /***/ "./src/js/mudules/slider/slider-main.js":
 /*!**********************************************!*\
   !*** ./src/js/mudules/slider/slider-main.js ***!
@@ -68,11 +89,11 @@ class VideoPlayer {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   MainSlider: () => (/* binding */ MainSlider)
 /* harmony export */ });
 /* harmony import */ var _slider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./slider */ "./src/js/mudules/slider/slider.js");
 
-class MainSlider extends _slider__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class MainSlider extends _slider__WEBPACK_IMPORTED_MODULE_0__.Slider {
   constructor(pagesSelector, buttonsSelector) {
     super(pagesSelector, buttonsSelector);
   }
@@ -125,7 +146,86 @@ class MainSlider extends _slider__WEBPACK_IMPORTED_MODULE_0__["default"] {
     this.showSlide(this.slideIndex);
   }
 }
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MainSlider);
+
+
+/***/ }),
+
+/***/ "./src/js/mudules/slider/slider-mini.js":
+/*!**********************************************!*\
+  !*** ./src/js/mudules/slider/slider-mini.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   SliderMini: () => (/* binding */ SliderMini)
+/* harmony export */ });
+/* harmony import */ var _slider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./slider */ "./src/js/mudules/slider/slider.js");
+
+class SliderMini extends _slider__WEBPACK_IMPORTED_MODULE_0__.Slider {
+  constructor({
+    pagesSelector,
+    nextSelector,
+    prevSelector,
+    activeClass,
+    autoplay
+  }) {
+    super({
+      pagesSelector,
+      nextSelector,
+      prevSelector,
+      activeClass,
+      autoplay
+    });
+  }
+  resetSlideStyles() {
+    this.slides.forEach(slider => {
+      slider.classList.remove(this.activeClass);
+    });
+  }
+  nextSlide() {
+    this.resetSlideStyles();
+    const nextSlide = this.pages.children[1];
+    if (nextSlide.tagName === 'BUTTON') {
+      this.pages.append(this.pages.children[0], nextSlide, this.pages.children[2]);
+    } else {
+      this.pages.appendChild(this.pages.children[0]);
+    }
+    this.pages.children[0].classList.add(this.activeClass);
+  }
+  prevSlide() {
+    this.resetSlideStyles();
+    const lastSlide = this.pages.children[this.slides.length - 1];
+    if (lastSlide.tagName === 'BUTTON') {
+      this.pages.insertBefore(this.pages.children[this.slides.length - 1], this.pages.children[3]);
+      this.pages.insertBefore(this.pages.children[this.slides.length - 2], this.pages.children[3]);
+      this.pages.insertBefore(this.pages.children[this.slides.length - 3], this.pages.children[0]);
+    } else {
+      this.pages.insertBefore(this.pages.children[this.slides.length - 1], this.pages.children[0]);
+    }
+    this.pages.children[0].classList.add(this.activeClass);
+  }
+  startAutoplay() {
+    this.timerId = setInterval(() => this.nextSlide(), 5000);
+  }
+  init() {
+    this.pages.style.cssText = `
+    display: flex;
+    flex-wrap: wrap;
+    overflow: hidden;
+    align-items: flex-start;`;
+    this.resetSlideStyles();
+    this.pages.children[0].classList.add(this.activeClass);
+    this.next.addEventListener('click', () => this.nextSlide());
+    this.prev.addEventListener('click', () => this.prevSlide());
+    if (this.autoplay) {
+      this.startAutoplay();
+      this.pages.addEventListener('mouseover', () => clearInterval(this.timerId));
+      this.pages.addEventListener('mouseout', () => this.startAutoplay());
+    }
+  }
+}
+
 
 /***/ }),
 
@@ -137,20 +237,28 @@ class MainSlider extends _slider__WEBPACK_IMPORTED_MODULE_0__["default"] {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   Slider: () => (/* binding */ Slider)
 /* harmony export */ });
 class Slider {
   constructor({
-    pagesSelector = '',
-    buttonsSelector = ''
+    pagesSelector = null,
+    buttonsSelector = null,
+    nextSelector = null,
+    prevSelector = null,
+    activeClass = '',
+    autoplay = false
   } = {}) {
     this.buttons = document.querySelectorAll(buttonsSelector);
     this.pages = document.querySelector(pagesSelector);
+    this.next = document.querySelector(nextSelector);
+    this.prev = document.querySelector(prevSelector);
     this.slides = Array.from(this.pages.children);
     this.slideIndex = 0;
+    this.activeClass = activeClass;
+    this.autoplay = autoplay;
   }
 }
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Slider);
+
 
 /***/ })
 
@@ -218,15 +326,34 @@ var __webpack_exports__ = {};
   \************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mudules_playVideo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mudules/playVideo */ "./src/js/mudules/playVideo.js");
-/* harmony import */ var _mudules_slider_slider_main__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mudules/slider/slider-main */ "./src/js/mudules/slider/slider-main.js");
+/* harmony import */ var _mudules_slider_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mudules/slider/index */ "./src/js/mudules/slider/index.js");
 
 
 window.addEventListener('DOMContentLoaded', () => {
-  new _mudules_slider_slider_main__WEBPACK_IMPORTED_MODULE_1__["default"]({
+  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_1__.MainSlider({
     pagesSelector: '.page',
     buttonsSelector: '.next'
   }).render();
   new _mudules_playVideo__WEBPACK_IMPORTED_MODULE_0__["default"]('.overlay', '.play', '.close').init();
+  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_1__.SliderMini({
+    pagesSelector: '.showup__content-slider',
+    nextSelector: '.showup__next',
+    prevSelector: '.showup__prev',
+    activeClass: 'card-active'
+  }).init();
+  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_1__.SliderMini({
+    pagesSelector: '.modules__content-slider',
+    nextSelector: '.modules__info-btns .slick-next',
+    prevSelector: '.modules__info-btns .slick-prev',
+    activeClass: 'card-active'
+  }).init();
+  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_1__.SliderMini({
+    pagesSelector: '.feed__slider',
+    nextSelector: '.feed__slider .slick-next',
+    prevSelector: '.feed__slider .slick-prev',
+    activeClass: 'feed__item-active',
+    autoplay: true
+  }).init();
 });
 })();
 
