@@ -2,6 +2,49 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/js/mudules/difference.js":
+/*!**************************************!*\
+  !*** ./src/js/mudules/difference.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+class Difference {
+  constructor(officerContainerSelector, blockSelector, showTriggerSelector) {
+    this.counter = 0;
+    this.officerContainer = document.querySelector(officerContainerSelector);
+    this.showTrigger = this.officerContainer.querySelector(showTriggerSelector);
+    this.blocks = this.officerContainer.querySelectorAll(blockSelector);
+  }
+  hideBlocks() {
+    this.blocks.forEach((block, index, arr) => {
+      if (block !== arr[arr.length - 1]) {
+        block.style.display = 'none';
+        block.classList.add('animated', 'fadeIn');
+      }
+    });
+  }
+  showNextBlock() {
+    if (this.counter === this.blocks.length - 2) {
+      this.blocks[this.counter].style.display = 'flex';
+      this.blocks[this.counter + 1].remove();
+    } else {
+      this.blocks[this.counter].style.display = 'flex';
+    }
+    this.counter++;
+  }
+  init() {
+    this.hideBlocks();
+    this.showTrigger.addEventListener('click', () => this.showNextBlock());
+  }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Difference);
+
+/***/ }),
+
 /***/ "./src/js/mudules/playVideo.js":
 /*!*************************************!*\
   !*** ./src/js/mudules/playVideo.js ***!
@@ -325,35 +368,39 @@ var __webpack_exports__ = {};
   !*** ./src/js/main.js ***!
   \************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _mudules_playVideo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mudules/playVideo */ "./src/js/mudules/playVideo.js");
-/* harmony import */ var _mudules_slider_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mudules/slider/index */ "./src/js/mudules/slider/index.js");
+/* harmony import */ var _mudules_difference__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mudules/difference */ "./src/js/mudules/difference.js");
+/* harmony import */ var _mudules_playVideo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mudules/playVideo */ "./src/js/mudules/playVideo.js");
+/* harmony import */ var _mudules_slider_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./mudules/slider/index */ "./src/js/mudules/slider/index.js");
+
 
 
 window.addEventListener('DOMContentLoaded', () => {
-  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_1__.MainSlider({
+  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_2__.MainSlider({
     pagesSelector: '.page',
     buttonsSelector: '.next'
   }).render();
-  new _mudules_playVideo__WEBPACK_IMPORTED_MODULE_0__["default"]('.overlay', '.play', '.close').init();
-  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_1__.SliderMini({
+  new _mudules_playVideo__WEBPACK_IMPORTED_MODULE_1__["default"]('.overlay', '.play', '.close').init();
+  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_2__.SliderMini({
     pagesSelector: '.showup__content-slider',
     nextSelector: '.showup__next',
     prevSelector: '.showup__prev',
     activeClass: 'card-active'
   }).init();
-  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_1__.SliderMini({
+  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_2__.SliderMini({
     pagesSelector: '.modules__content-slider',
     nextSelector: '.modules__info-btns .slick-next',
     prevSelector: '.modules__info-btns .slick-prev',
     activeClass: 'card-active'
   }).init();
-  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_1__.SliderMini({
+  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_2__.SliderMini({
     pagesSelector: '.feed__slider',
     nextSelector: '.feed__slider .slick-next',
     prevSelector: '.feed__slider .slick-prev',
     activeClass: 'feed__item-active',
     autoplay: true
   }).init();
+  new _mudules_difference__WEBPACK_IMPORTED_MODULE_0__["default"]('.officerold', '.officer__card-item', '.plus').init();
+  new _mudules_difference__WEBPACK_IMPORTED_MODULE_0__["default"]('.officernew', '.officer__card-item', '.plus').init();
 });
 })();
 
