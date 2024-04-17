@@ -45,6 +45,57 @@ class Difference {
 
 /***/ }),
 
+/***/ "./src/js/mudules/form.js":
+/*!********************************!*\
+  !*** ./src/js/mudules/form.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _services_postData__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./services/postData */ "./src/js/mudules/services/postData.js");
+
+class Form {
+  constructor(url, formSelector) {
+    this.url = url;
+    this.form = document.querySelector(formSelector);
+    this.message = {
+      loading: 'Loading...',
+      success: 'Thank you! We will contact you soon!',
+      failure: 'Something went wrong...'
+    };
+  }
+  init() {
+    this.form.addEventListener('submit', async event => {
+      event.preventDefault();
+      const status = document.createElement('div');
+      status.style.cssText = `
+      margin-top: 15px;
+      font-size: 18px;
+      color: grey;
+  `;
+      status.innerText = this.message.loading;
+      this.form.parentElement.appendChild(status);
+      try {
+        const data = Object.fromEntries(new FormData(this.form).entries());
+        this.form.reset();
+        const postData = new _services_postData__WEBPACK_IMPORTED_MODULE_0__["default"](this.url, data);
+        await postData.sendRequest();
+        status.innerText = this.message.success;
+      } catch {
+        status.innerText = this.message.failure;
+      } finally {
+        setTimeout(() => status.remove(), 3000);
+      }
+    });
+  }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Form);
+
+/***/ }),
+
 /***/ "./src/js/mudules/playVideo.js":
 /*!*************************************!*\
   !*** ./src/js/mudules/playVideo.js ***!
@@ -100,6 +151,42 @@ class VideoPlayer {
   }
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (VideoPlayer);
+
+/***/ }),
+
+/***/ "./src/js/mudules/services/postData.js":
+/*!*********************************************!*\
+  !*** ./src/js/mudules/services/postData.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+class PostData {
+  constructor(url, data, options = {}) {
+    this.url = url.trim();
+    this.data = data;
+    this.options = options;
+  }
+  async sendRequest() {
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8'
+      },
+      body: JSON.stringify(this.data),
+      ...this.options
+    };
+    const response = await fetch(this.url, requestOptions);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return await response.json();
+  }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PostData);
 
 /***/ }),
 
@@ -369,30 +456,32 @@ var __webpack_exports__ = {};
   \************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mudules_difference__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mudules/difference */ "./src/js/mudules/difference.js");
-/* harmony import */ var _mudules_playVideo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mudules/playVideo */ "./src/js/mudules/playVideo.js");
-/* harmony import */ var _mudules_slider_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./mudules/slider/index */ "./src/js/mudules/slider/index.js");
+/* harmony import */ var _mudules_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mudules/form */ "./src/js/mudules/form.js");
+/* harmony import */ var _mudules_playVideo__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./mudules/playVideo */ "./src/js/mudules/playVideo.js");
+/* harmony import */ var _mudules_slider_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./mudules/slider/index */ "./src/js/mudules/slider/index.js");
+
 
 
 
 window.addEventListener('DOMContentLoaded', () => {
-  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_2__.MainSlider({
+  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_3__.MainSlider({
     pagesSelector: '.page',
     buttonsSelector: '.next'
   }).render();
-  new _mudules_playVideo__WEBPACK_IMPORTED_MODULE_1__["default"]('.overlay', '.play', '.close').init();
-  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_2__.SliderMini({
+  new _mudules_playVideo__WEBPACK_IMPORTED_MODULE_2__["default"]('.overlay', '.play', '.close').init();
+  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_3__.SliderMini({
     pagesSelector: '.showup__content-slider',
     nextSelector: '.showup__next',
     prevSelector: '.showup__prev',
     activeClass: 'card-active'
   }).init();
-  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_2__.SliderMini({
+  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_3__.SliderMini({
     pagesSelector: '.modules__content-slider',
     nextSelector: '.modules__info-btns .slick-next',
     prevSelector: '.modules__info-btns .slick-prev',
     activeClass: 'card-active'
   }).init();
-  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_2__.SliderMini({
+  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_3__.SliderMini({
     pagesSelector: '.feed__slider',
     nextSelector: '.feed__slider .slick-next',
     prevSelector: '.feed__slider .slick-prev',
@@ -401,6 +490,8 @@ window.addEventListener('DOMContentLoaded', () => {
   }).init();
   new _mudules_difference__WEBPACK_IMPORTED_MODULE_0__["default"]('.officerold', '.officer__card-item', '.plus').init();
   new _mudules_difference__WEBPACK_IMPORTED_MODULE_0__["default"]('.officernew', '.officer__card-item', '.plus').init();
+  new _mudules_form__WEBPACK_IMPORTED_MODULE_1__["default"]('https://jsonplaceholder.typicode.com/users', '.join__evolution form').init();
+  new _mudules_form__WEBPACK_IMPORTED_MODULE_1__["default"]('https://jsonplaceholder.typicode.com/users', '.schedule__form form').init();
 });
 })();
 

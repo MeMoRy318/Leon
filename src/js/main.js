@@ -1,4 +1,5 @@
 import Difference from './mudules/difference';
+import Form from './mudules/form';
 import VideoPlayer from './mudules/playVideo';
 import { MainSlider, SliderMini } from './mudules/slider/index';
 
@@ -30,4 +31,7 @@ window.addEventListener('DOMContentLoaded',()=>{
 
   new Difference('.officerold','.officer__card-item','.plus').init();
   new Difference('.officernew','.officer__card-item','.plus').init();
+
+  new Form('https://jsonplaceholder.typicode.com/users','.join__evolution form').init();
+  new Form('https://jsonplaceholder.typicode.com/users','.schedule__form form').init();
 }); 
