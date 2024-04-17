@@ -96,6 +96,65 @@ class Form {
 
 /***/ }),
 
+/***/ "./src/js/mudules/mask.js":
+/*!********************************!*\
+  !*** ./src/js/mudules/mask.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+class Mask {
+  constructor(phoneSelector, matrix) {
+    this.phoneSelector = phoneSelector;
+    this.matrix = matrix;
+    this.inputs = document.querySelectorAll(phoneSelector);
+  }
+  setCursorPosition(pos, elem) {
+    elem.focus();
+    if (elem.setSelectionRange) {
+      elem.setSelectionRange(pos, pos);
+    } else if (elem.createTextRange) {
+      let range = elem.createTextRange();
+      range.collapse(true);
+      range.moveEnd('character', pos);
+      range.moveStart('character', pos);
+      range.select();
+    }
+  }
+  createMask(event) {
+    let input = event.target;
+    let i = 0,
+      def = this.matrix.replace(/\D/g, ''),
+      val = input.value.replace(/\D/g, '');
+    if (def.length >= val.length) {
+      val = def;
+    }
+    input.value = this.matrix.replace(/./g, function (a) {
+      return /[_\d]/.test(a) && i < val.length ? val.charAt(i++) : i >= val.length ? '' : a;
+    });
+    if (event.type === 'blur') {
+      if (input.value.length == 2) {
+        input.value = '';
+      }
+    } else {
+      this.setCursorPosition(input.value.length, input);
+    }
+  }
+  init() {
+    this.inputs.forEach(input => {
+      input.addEventListener('input', e => this.createMask(e));
+      input.addEventListener('focus', e => this.createMask(e));
+      input.addEventListener('blur', e => this.createMask(e));
+    });
+  }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Mask);
+
+/***/ }),
+
 /***/ "./src/js/mudules/playVideo.js":
 /*!*************************************!*\
   !*** ./src/js/mudules/playVideo.js ***!
@@ -457,31 +516,33 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mudules_difference__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mudules/difference */ "./src/js/mudules/difference.js");
 /* harmony import */ var _mudules_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mudules/form */ "./src/js/mudules/form.js");
-/* harmony import */ var _mudules_playVideo__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./mudules/playVideo */ "./src/js/mudules/playVideo.js");
-/* harmony import */ var _mudules_slider_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./mudules/slider/index */ "./src/js/mudules/slider/index.js");
+/* harmony import */ var _mudules_mask__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./mudules/mask */ "./src/js/mudules/mask.js");
+/* harmony import */ var _mudules_playVideo__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./mudules/playVideo */ "./src/js/mudules/playVideo.js");
+/* harmony import */ var _mudules_slider_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./mudules/slider/index */ "./src/js/mudules/slider/index.js");
+
 
 
 
 
 window.addEventListener('DOMContentLoaded', () => {
-  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_3__.MainSlider({
+  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_4__.MainSlider({
     pagesSelector: '.page',
     buttonsSelector: '.next'
   }).render();
-  new _mudules_playVideo__WEBPACK_IMPORTED_MODULE_2__["default"]('.overlay', '.play', '.close').init();
-  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_3__.SliderMini({
+  new _mudules_playVideo__WEBPACK_IMPORTED_MODULE_3__["default"]('.overlay', '.play', '.close').init();
+  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_4__.SliderMini({
     pagesSelector: '.showup__content-slider',
     nextSelector: '.showup__next',
     prevSelector: '.showup__prev',
     activeClass: 'card-active'
   }).init();
-  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_3__.SliderMini({
+  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_4__.SliderMini({
     pagesSelector: '.modules__content-slider',
     nextSelector: '.modules__info-btns .slick-next',
     prevSelector: '.modules__info-btns .slick-prev',
     activeClass: 'card-active'
   }).init();
-  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_3__.SliderMini({
+  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_4__.SliderMini({
     pagesSelector: '.feed__slider',
     nextSelector: '.feed__slider .slick-next',
     prevSelector: '.feed__slider .slick-prev',
@@ -492,6 +553,7 @@ window.addEventListener('DOMContentLoaded', () => {
   new _mudules_difference__WEBPACK_IMPORTED_MODULE_0__["default"]('.officernew', '.officer__card-item', '.plus').init();
   new _mudules_form__WEBPACK_IMPORTED_MODULE_1__["default"]('https://jsonplaceholder.typicode.com/users', '.join__evolution form').init();
   new _mudules_form__WEBPACK_IMPORTED_MODULE_1__["default"]('https://jsonplaceholder.typicode.com/users', '.schedule__form form').init();
+  new _mudules_mask__WEBPACK_IMPORTED_MODULE_2__["default"]('[name="phone"]', '+1 (___) ___-____').init();
 });
 })();
 

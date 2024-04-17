@@ -1,5 +1,6 @@
 import Difference from './mudules/difference';
 import Form from './mudules/form';
+import Mask from './mudules/mask';
 import VideoPlayer from './mudules/playVideo';
 import { MainSlider, SliderMini } from './mudules/slider/index';
 
@@ -34,4 +35,5 @@ window.addEventListener('DOMContentLoaded',()=>{
 
   new Form('https://jsonplaceholder.typicode.com/users','.join__evolution form').init();
   new Form('https://jsonplaceholder.typicode.com/users','.schedule__form form').init();
+  new Mask('[name="phone"]','+1 (___) ___-____').init();
 }); 
