@@ -40,23 +40,26 @@ class SliderMini extends Slider {
   }
 
   init() {
-    this.pages.style.cssText = `
+    try{
+      this.pages.style.cssText = `
     display: flex;
     flex-wrap: wrap;
     overflow: hidden;
     align-items: flex-start;`;
-    this.resetSlideStyles();
-    this.pages.children[0].classList.add(this.activeClass);
+      this.resetSlideStyles();
+      this.pages.children[0].classList.add(this.activeClass);
 
-    this.next.addEventListener('click', () => this.nextSlide());
-    this.prev.addEventListener('click', () => this.prevSlide());
+      this.next.addEventListener('click', () => this.nextSlide());
+      this.prev.addEventListener('click', () => this.prevSlide());
     
-    if(this.autoplay){
-      this.startAutoplay();
+      if(this.autoplay){
+        this.startAutoplay();
 
-      this.pages.addEventListener('mouseover',()=> clearInterval(this.timerId));
-      this.pages.addEventListener('mouseout',()=> this.startAutoplay());
-    }
+        this.pages.addEventListener('mouseover',()=> clearInterval(this.timerId));
+        this.pages.addEventListener('mouseout',()=> this.startAutoplay());
+      }
+      // eslint-disable-next-line
+    }catch{}
     
   }
 }

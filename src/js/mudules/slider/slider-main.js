@@ -41,23 +41,26 @@ class MainSlider extends Slider {
   }
   
   render() {
-    this.hanson = document.querySelector('.hanson');
-    this.hanson.style.display = 'none';
+    try{
+      this.hanson = document.querySelector('.hanson');
+      this.hanson.style.display = 'none';
     
-    this.buttons.forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        this.plusSlide(1);
-      });
+      this.buttons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.plusSlide(1);
+        });
 
-      btn.parentNode.previousElementSibling.addEventListener('click', (e) => {
-        e.preventDefault();
-        this.slideIndex = 0;
-        this.showSlide(this.slideIndex);
+        btn.parentNode.previousElementSibling.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.slideIndex = 0;
+          this.showSlide(this.slideIndex);
+        });
       });
-    });
   
-    this.showSlide(this.slideIndex);
+      this.showSlide(this.slideIndex);
+      // eslint-disable-next-line
+    }catch{}
   }
 }
 

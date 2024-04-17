@@ -2,8 +2,11 @@ class Difference {
   constructor(officerContainerSelector, blockSelector, showTriggerSelector) {
     this.counter = 0;
     this.officerContainer = document.querySelector(officerContainerSelector);
-    this.showTrigger = this.officerContainer.querySelector(showTriggerSelector);
-    this.blocks = this.officerContainer.querySelectorAll(blockSelector);
+    try{
+      this.showTrigger = this.officerContainer.querySelector(showTriggerSelector);
+      this.blocks = this.officerContainer.querySelectorAll(blockSelector);
+      // eslint-disable-next-line
+    }catch{}
   }
   
   hideBlocks() {
@@ -26,8 +29,11 @@ class Difference {
   }
   
   init() {
-    this.hideBlocks();
-    this.showTrigger.addEventListener('click', () => this.showNextBlock());
+    try{
+      this.hideBlocks();
+      this.showTrigger.addEventListener('click', () => this.showNextBlock());
+      // eslint-disable-next-line
+    }catch{}
   }
 }
   

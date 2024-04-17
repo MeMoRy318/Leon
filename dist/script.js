@@ -16,8 +16,11 @@ class Difference {
   constructor(officerContainerSelector, blockSelector, showTriggerSelector) {
     this.counter = 0;
     this.officerContainer = document.querySelector(officerContainerSelector);
-    this.showTrigger = this.officerContainer.querySelector(showTriggerSelector);
-    this.blocks = this.officerContainer.querySelectorAll(blockSelector);
+    try {
+      this.showTrigger = this.officerContainer.querySelector(showTriggerSelector);
+      this.blocks = this.officerContainer.querySelectorAll(blockSelector);
+      // eslint-disable-next-line
+    } catch {}
   }
   hideBlocks() {
     this.blocks.forEach((block, index, arr) => {
@@ -37,8 +40,11 @@ class Difference {
     this.counter++;
   }
   init() {
-    this.hideBlocks();
-    this.showTrigger.addEventListener('click', () => this.showNextBlock());
+    try {
+      this.hideBlocks();
+      this.showTrigger.addEventListener('click', () => this.showNextBlock());
+      // eslint-disable-next-line
+    } catch {}
   }
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Difference);
@@ -61,7 +67,10 @@ class Form {
   constructor(url, formSelector) {
     this.url = url;
     this.form = document.querySelector(formSelector);
-    this.emailInput = this.form.querySelector('[name="email"]');
+    // eslint-disable-next-line
+    try {
+      this.emailInput = this.form.querySelector('[name="email"]');
+    } catch {}
     this.message = {
       loading: 'Loading...',
       success: 'Thank you! We will contact you soon!',
@@ -69,31 +78,34 @@ class Form {
     };
   }
   init() {
-    this.emailInput.addEventListener('input', () => {
-      this.emailInput.value = this.emailInput.value.replace(/[^\w@.]/g, '');
-    });
-    this.form.addEventListener('submit', async event => {
-      event.preventDefault();
-      const status = document.createElement('div');
-      status.style.cssText = `
-      margin-top: 15px;
-      font-size: 18px;
-      color: grey;
-  `;
-      status.innerText = this.message.loading;
-      this.form.parentElement.appendChild(status);
-      try {
-        const data = Object.fromEntries(new FormData(this.form).entries());
-        this.form.reset();
-        const postData = new _services_postData__WEBPACK_IMPORTED_MODULE_0__["default"](this.url, data);
-        await postData.sendRequest();
-        status.innerText = this.message.success;
-      } catch {
-        status.innerText = this.message.failure;
-      } finally {
-        setTimeout(() => status.remove(), 3000);
-      }
-    });
+    try {
+      this.emailInput.addEventListener('input', () => {
+        this.emailInput.value = this.emailInput.value.replace(/[^\w@.]/g, '');
+      });
+      this.form.addEventListener('submit', async event => {
+        event.preventDefault();
+        const status = document.createElement('div');
+        status.style.cssText = `
+        margin-top: 15px;
+        font-size: 18px;
+        color: grey;
+    `;
+        status.innerText = this.message.loading;
+        this.form.parentElement.appendChild(status);
+        try {
+          const data = Object.fromEntries(new FormData(this.form).entries());
+          this.form.reset();
+          const postData = new _services_postData__WEBPACK_IMPORTED_MODULE_0__["default"](this.url, data);
+          await postData.sendRequest();
+          status.innerText = this.message.success;
+        } catch {
+          status.innerText = this.message.failure;
+        } finally {
+          setTimeout(() => status.remove(), 3000);
+        }
+      });
+      // eslint-disable-next-line
+    } catch {}
   }
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Form);
@@ -323,20 +335,23 @@ class MainSlider extends _slider__WEBPACK_IMPORTED_MODULE_0__.Slider {
     this.showSlide(newIndex);
   }
   render() {
-    this.hanson = document.querySelector('.hanson');
-    this.hanson.style.display = 'none';
-    this.buttons.forEach(btn => {
-      btn.addEventListener('click', e => {
-        e.preventDefault();
-        this.plusSlide(1);
+    try {
+      this.hanson = document.querySelector('.hanson');
+      this.hanson.style.display = 'none';
+      this.buttons.forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.preventDefault();
+          this.plusSlide(1);
+        });
+        btn.parentNode.previousElementSibling.addEventListener('click', e => {
+          e.preventDefault();
+          this.slideIndex = 0;
+          this.showSlide(this.slideIndex);
+        });
       });
-      btn.parentNode.previousElementSibling.addEventListener('click', e => {
-        e.preventDefault();
-        this.slideIndex = 0;
-        this.showSlide(this.slideIndex);
-      });
-    });
-    this.showSlide(this.slideIndex);
+      this.showSlide(this.slideIndex);
+      // eslint-disable-next-line
+    } catch {}
   }
 }
 
@@ -402,20 +417,23 @@ class SliderMini extends _slider__WEBPACK_IMPORTED_MODULE_0__.Slider {
     this.timerId = setInterval(() => this.nextSlide(), 5000);
   }
   init() {
-    this.pages.style.cssText = `
+    try {
+      this.pages.style.cssText = `
     display: flex;
     flex-wrap: wrap;
     overflow: hidden;
     align-items: flex-start;`;
-    this.resetSlideStyles();
-    this.pages.children[0].classList.add(this.activeClass);
-    this.next.addEventListener('click', () => this.nextSlide());
-    this.prev.addEventListener('click', () => this.prevSlide());
-    if (this.autoplay) {
-      this.startAutoplay();
-      this.pages.addEventListener('mouseover', () => clearInterval(this.timerId));
-      this.pages.addEventListener('mouseout', () => this.startAutoplay());
-    }
+      this.resetSlideStyles();
+      this.pages.children[0].classList.add(this.activeClass);
+      this.next.addEventListener('click', () => this.nextSlide());
+      this.prev.addEventListener('click', () => this.prevSlide());
+      if (this.autoplay) {
+        this.startAutoplay();
+        this.pages.addEventListener('mouseover', () => clearInterval(this.timerId));
+        this.pages.addEventListener('mouseout', () => this.startAutoplay());
+      }
+      // eslint-disable-next-line
+    } catch {}
   }
 }
 
@@ -445,7 +463,10 @@ class Slider {
     this.pages = document.querySelector(pagesSelector);
     this.next = document.querySelector(nextSelector);
     this.prev = document.querySelector(prevSelector);
-    this.slides = Array.from(this.pages.children);
+    // eslint-disable-next-line
+    try {
+      this.slides = Array.from(this.pages.children);
+    } catch (e) {}
     this.slideIndex = 0;
     this.activeClass = activeClass;
     this.autoplay = autoplay;

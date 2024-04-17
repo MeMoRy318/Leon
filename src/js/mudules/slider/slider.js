@@ -11,7 +11,8 @@ class Slider {
     this.pages = document.querySelector(pagesSelector);
     this.next = document.querySelector(nextSelector);
     this.prev = document.querySelector(prevSelector);
-    this.slides = Array.from(this.pages.children);
+    // eslint-disable-next-line
+    try{ this.slides = Array.from(this.pages.children);}catch(e){}
     this.slideIndex = 0;
     this.activeClass = activeClass;
     this.autoplay = autoplay;
