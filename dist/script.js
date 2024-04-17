@@ -61,6 +61,7 @@ class Form {
   constructor(url, formSelector) {
     this.url = url;
     this.form = document.querySelector(formSelector);
+    this.emailInput = this.form.querySelector('[name="email"]');
     this.message = {
       loading: 'Loading...',
       success: 'Thank you! We will contact you soon!',
@@ -68,6 +69,9 @@ class Form {
     };
   }
   init() {
+    this.emailInput.addEventListener('input', () => {
+      this.emailInput.value = this.emailInput.value.replace(/[^\w@.]/g, '');
+    });
     this.form.addEventListener('submit', async event => {
       event.preventDefault();
       const status = document.createElement('div');
