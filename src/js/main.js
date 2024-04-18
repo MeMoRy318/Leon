@@ -6,6 +6,13 @@ import { MainSlider, SliderMini } from './mudules/slider/index';
 
 window.addEventListener('DOMContentLoaded',()=>{
   new MainSlider({pagesSelector:'.page', buttonsSelector:'.next'}).render();
+  new MainSlider({
+    pagesSelector:'.moduleapp',
+    buttonsSelector:'.moduleapp .sidecontrol__controls .next',
+    prevSelector:'.prevmodule',
+    nextSelector:'.nextmodule'
+  }).render();
+
   new VideoPlayer('.overlay','.play','.close').init();
   
   new SliderMini({
@@ -36,4 +43,5 @@ window.addEventListener('DOMContentLoaded',()=>{
   new Form('https://jsonplaceholder.typicode.com/users','.join__evolution form').init();
   new Form('https://jsonplaceholder.typicode.com/users','.schedule__form form').init();
   new Mask('[name="phone"]','+1 (___) ___-____').init();
+
 }); 

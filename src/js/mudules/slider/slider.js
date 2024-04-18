@@ -9,8 +9,8 @@ class Slider {
   } = {}) {
     this.buttons = document.querySelectorAll(buttonsSelector);
     this.pages = document.querySelector(pagesSelector);
-    this.next = document.querySelector(nextSelector);
-    this.prev = document.querySelector(prevSelector);
+    this.next = document.querySelectorAll(nextSelector);
+    this.prev = document.querySelectorAll(prevSelector);
     // eslint-disable-next-line
     try{ this.slides = Array.from(this.pages.children);}catch(e){}
     this.slideIndex = 0;

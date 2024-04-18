@@ -49,8 +49,8 @@ class SliderMini extends Slider {
       this.resetSlideStyles();
       this.pages.children[0].classList.add(this.activeClass);
 
-      this.next.addEventListener('click', () => this.nextSlide());
-      this.prev.addEventListener('click', () => this.prevSlide());
+      this.next[0].addEventListener('click', () => this.nextSlide());
+      this.prev[0].addEventListener('click', () => this.prevSlide());
     
       if(this.autoplay){
         this.startAutoplay();
