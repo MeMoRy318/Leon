@@ -2,6 +2,53 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/js/mudules/accordions.js":
+/*!**************************************!*\
+  !*** ./src/js/mudules/accordions.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+class Accordions {
+  constructor(triggerSelector, containerSelector) {
+    this.triggers = document.querySelectorAll(triggerSelector);
+    this.containers = document.querySelectorAll(containerSelector);
+  }
+  restyleInitial() {
+    this.containers.forEach(container => {
+      container.style.cssText = 'display: block; opacity: 0; overflow: hidden; max-height: 0px; transition: all 0.7s ease-out;';
+    });
+  }
+  showContent(index) {
+    const container = this.containers[index];
+    const scrollHeight = container.scrollHeight;
+    container.style.maxHeight = `${scrollHeight}px`;
+    container.style.opacity = '1';
+  }
+  hideContent(index) {
+    const container = this.containers[index];
+    container.style.opacity = '0';
+    container.style.maxHeight = '0px';
+  }
+  toggleContent(index) {
+    const container = this.containers[index];
+    const isOpen = container.style.opacity === '1';
+    isOpen ? this.hideContent(index) : this.showContent(index);
+  }
+  init() {
+    this.restyleInitial();
+    this.triggers.forEach((trigger, index) => {
+      trigger.addEventListener('click', () => this.toggleContent(index));
+    });
+  }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Accordions);
+
+/***/ }),
+
 /***/ "./src/js/mudules/difference.js":
 /*!**************************************!*\
   !*** ./src/js/mudules/difference.js ***!
@@ -219,7 +266,7 @@ class VideoPlayer {
   }
   bindTriggers() {
     this.triggers.forEach((trigger, index) => {
-      if (index % 2) {
+      if (index % 2 && trigger.parentNode.classList.contains('module__video-item')) {
         trigger.parentNode.setAttribute('data-disabled', 'true');
       }
       trigger.addEventListener('click', () => {
@@ -592,52 +639,55 @@ var __webpack_exports__ = {};
   !*** ./src/js/main.js ***!
   \************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _mudules_difference__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mudules/difference */ "./src/js/mudules/difference.js");
-/* harmony import */ var _mudules_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mudules/form */ "./src/js/mudules/form.js");
-/* harmony import */ var _mudules_mask__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./mudules/mask */ "./src/js/mudules/mask.js");
-/* harmony import */ var _mudules_playVideo__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./mudules/playVideo */ "./src/js/mudules/playVideo.js");
-/* harmony import */ var _mudules_slider_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./mudules/slider/index */ "./src/js/mudules/slider/index.js");
+/* harmony import */ var _mudules_accordions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mudules/accordions */ "./src/js/mudules/accordions.js");
+/* harmony import */ var _mudules_difference__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mudules/difference */ "./src/js/mudules/difference.js");
+/* harmony import */ var _mudules_form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./mudules/form */ "./src/js/mudules/form.js");
+/* harmony import */ var _mudules_mask__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./mudules/mask */ "./src/js/mudules/mask.js");
+/* harmony import */ var _mudules_playVideo__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./mudules/playVideo */ "./src/js/mudules/playVideo.js");
+/* harmony import */ var _mudules_slider_index__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./mudules/slider/index */ "./src/js/mudules/slider/index.js");
+
 
 
 
 
 
 window.addEventListener('DOMContentLoaded', () => {
-  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_4__.MainSlider({
+  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_5__.MainSlider({
     pagesSelector: '.page',
     buttonsSelector: '.next'
   }).render();
-  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_4__.MainSlider({
+  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_5__.MainSlider({
     pagesSelector: '.moduleapp',
     buttonsSelector: '.moduleapp .sidecontrol__controls .next',
     prevSelector: '.prevmodule',
     nextSelector: '.nextmodule'
   }).render();
-  new _mudules_playVideo__WEBPACK_IMPORTED_MODULE_3__["default"]('.overlay', '.play', '.close').init();
-  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_4__.SliderMini({
+  new _mudules_playVideo__WEBPACK_IMPORTED_MODULE_4__["default"]('.overlay', '.play', '.close').init();
+  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_5__.SliderMini({
     pagesSelector: '.showup__content-slider',
     nextSelector: '.showup__next',
     prevSelector: '.showup__prev',
     activeClass: 'card-active'
   }).init();
-  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_4__.SliderMini({
+  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_5__.SliderMini({
     pagesSelector: '.modules__content-slider',
     nextSelector: '.modules__info-btns .slick-next',
     prevSelector: '.modules__info-btns .slick-prev',
     activeClass: 'card-active'
   }).init();
-  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_4__.SliderMini({
+  new _mudules_slider_index__WEBPACK_IMPORTED_MODULE_5__.SliderMini({
     pagesSelector: '.feed__slider',
     nextSelector: '.feed__slider .slick-next',
     prevSelector: '.feed__slider .slick-prev',
     activeClass: 'feed__item-active',
     autoplay: true
   }).init();
-  new _mudules_difference__WEBPACK_IMPORTED_MODULE_0__["default"]('.officerold', '.officer__card-item', '.plus').init();
-  new _mudules_difference__WEBPACK_IMPORTED_MODULE_0__["default"]('.officernew', '.officer__card-item', '.plus').init();
-  new _mudules_form__WEBPACK_IMPORTED_MODULE_1__["default"]('https://jsonplaceholder.typicode.com/users', '.join__evolution form').init();
-  new _mudules_form__WEBPACK_IMPORTED_MODULE_1__["default"]('https://jsonplaceholder.typicode.com/users', '.schedule__form form').init();
-  new _mudules_mask__WEBPACK_IMPORTED_MODULE_2__["default"]('[name="phone"]', '+1 (___) ___-____').init();
+  new _mudules_difference__WEBPACK_IMPORTED_MODULE_1__["default"]('.officerold', '.officer__card-item', '.plus').init();
+  new _mudules_difference__WEBPACK_IMPORTED_MODULE_1__["default"]('.officernew', '.officer__card-item', '.plus').init();
+  new _mudules_form__WEBPACK_IMPORTED_MODULE_2__["default"]('https://jsonplaceholder.typicode.com/users', '.join__evolution form').init();
+  new _mudules_form__WEBPACK_IMPORTED_MODULE_2__["default"]('https://jsonplaceholder.typicode.com/users', '.schedule__form form').init();
+  new _mudules_mask__WEBPACK_IMPORTED_MODULE_3__["default"]('[name="phone"]', '+1 (___) ___-____').init();
+  new _mudules_accordions__WEBPACK_IMPORTED_MODULE_0__["default"]('.module__info-show .plus', '.msg').init();
 });
 })();
 

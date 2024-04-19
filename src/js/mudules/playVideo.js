@@ -42,7 +42,7 @@ class VideoPlayer {
 
   bindTriggers() {
     this.triggers.forEach((trigger, index) => {
-      if (index % 2) {
+      if (index % 2 && trigger.parentNode.classList.contains('module__video-item')) {
         trigger.parentNode.setAttribute('data-disabled', 'true');
       }
       trigger.addEventListener('click', () => {

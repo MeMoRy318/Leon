@@ -1,3 +1,4 @@
+import Accordions from './mudules/accordions';
 import Difference from './mudules/difference';
 import Form from './mudules/form';
 import Mask from './mudules/mask';
@@ -44,4 +45,5 @@ window.addEventListener('DOMContentLoaded',()=>{
   new Form('https://jsonplaceholder.typicode.com/users','.schedule__form form').init();
   new Mask('[name="phone"]','+1 (___) ___-____').init();
 
+  new Accordions('.module__info-show .plus', '.msg').init();
 }); 
